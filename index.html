@@ -1,34 +1,57 @@
 <html>
-    <head>
-        <title>jQUery Toaster</title>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script src="toaster.js"></script>
-    </head>
 
-    <body>
-        <input type="text" id="text-content" placeholder="text">
-        <input type="text" id="color" placeholder="color">
-        <input type="text" id="background" placeholder="background">
-        <button onclick="toast()">Toast it</button>
-        <div id="id"></div>
-        <script>
+<head>
+    <title>jQUery Toaster</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="toaster.js"></script>
+</head>
+
+<body>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <input type="text" class="form-control" id="text-content" placeholder="text">
+            </div>
+            <div class="col-md-2">
+                <b>Color:</b>
+                <input type="color" id="color" placeholder="color">
+            </div>
+            <div class="col-md-2">
+                <b>Background:</b>
+                <input type="color" id="background" placeholder="background">
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="form-control" id="horizontal" placeholder="Horizontal position">
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="form-control" id="vertical" placeholder="Vertical position">
+            </div>
+        </div>
+        <br>
+        <button onclick="toast()" class="btn btn-primary">Toast it</button>
+    </div>
+    <div id="id"></div>
+    <script>
+        function toast() {
+            var text = $("#text-content").val();
+            var color = $("#color").val();
+            var background = $("#background").val();
+            var horizontal = $("#horizontal").val();
+            var vertical = $("#vertical").val();
+
             var toaster = new Toaster({
-                'text': 'Hi',
-                'color': '#FFF',
-                'background': '#333',
-                'vertical-position': 'bottom',
-                'horizontal-position': 'right',
-                'container' : '#id'
+                'text': text,
+                'color': color,
+                'background': background,
+                'verticalPosition': vertical,
+                'horizontalPosition': horizontal,
+                'container': '#id'
             });
-            function toast() {
-                var text = $("#text-content").val();
-                var color = $("#color").val();
-                var background = $("#background").val();
-                toaster.text = text;
-                toaster.color = color;
-                toaster.background = background;
-                toaster.publish();
-            }
-        </script>
-    </body>
+            toaster.publish();
+        }
+    </script>
+</body>
+
 </html>
