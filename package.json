@@ -1,0 +1,31 @@
+{
+  "name": "jquery-message-toaster",
+  "version": "0.0.1",
+  "description": "A simple easy to use jQuery based message toaster. Fully configurable, and customizable options available.",
+  "main": "toaster.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rudrakshpathak/jquery-message-toaster.git"
+  },
+  "keywords": [
+    "jquery",
+    "message",
+    "toaster",
+    "message",
+    "toaster",
+    "flash",
+    "message",
+    "jquery",
+    "flash",
+    "message",
+    "javascript",
+    "message",
+    "toaster"
+  ],
+  "author": "Rudraksh Pathak <rudraksh.pathak0407@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rudrakshpathak/jquery-message-toaster/issues"
+  },
+  "homepage": "https://github.com/rudrakshpathak/jquery-message-toaster#readme"
+}
