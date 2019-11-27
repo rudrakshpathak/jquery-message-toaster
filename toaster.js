@@ -1,57 +1,75 @@
 /**
- * Toaster class
+ * A simple easy to use jQuery based message toaster. Fully configurable, and customizable options available.
+ * 
+ * @version 0.0.6
+ * @license MIT
+ * @author Rudraksh Pathak
+ * @status stable
  * @param {*} data
  */
-function Toaster(data) {
+class Toaster {
 
-    // Constructor values
-    this.data = data,
+    /**
+     * Constructor defining the properties and initializing default data
+     * 
+     * @param {oject} data Data object passed as configuration
+     */
+    constructor(data) {
+        // Setting the default properties
+        this.defaultValues = {
+            container: "#toasterContainer",
+            text: "Hello !!",
+            color: "#FFF",
+            background: "#333",
+            verticalPosition: "bottom",
+            horizontalPosition: "right",
+            width: "290px",
+            height: "40px",
+            padding: "5px",
+            cornerRadius: "5px"
+        }
 
-    // Default properties
-    this.defaultValues = {
-        container: "#toasterContainer",
-        text: "Hello !!",
-        color: "#FFF",
-        background: "#333",
-        verticalPosition: "bottom",
-        horizontalPosition: "right",
-        width: "290px",
-        height: "40px",
-        padding: "5px",
-        cornerRadius: "5px"
-    },
+        // Constructor values
+        this.data = data,
 
-    // Class properties
-    this.color,
-    this.background,
-    this.verticalPosition,
-    this.horizontalPosition,
-    this.container,
-    this.text,
-    this.width,
-    this.height,
-    this.padding,
-    this.cornerRadius,
+        // Class properties
+        this.color,
+        this.background,
+        this.verticalPosition,
+        this.horizontalPosition,
+        this.container,
+        this.text,
+        this.width,
+        this.height,
+        this.padding,
+        this.cornerRadius
+    }
 
-    // Setting default and new values
-    this.setData = function (toasterData) {
+    /**
+     * Setting default and new values
+     * 
+     * @param {object} toasterData Toaster configuration data
+     */
+    setData(toasterData) {
         // Checking if data exists
         if (this.isNull(toasterData)) {
-            this.color = this.isNull(toasterData.data.color) ? toasterData.data.color : this.defaultValues.color;
-            this.background = this.isNull(toasterData.data.background) ? toasterData.data.background : this.defaultValues.background;
-            this.verticalPosition = this.isNull(toasterData.data.verticalPosition) ? toasterData.data.verticalPosition : this.defaultValues.verticalPosition;
-            this.horizontalPosition = this.isNull(toasterData.data.horizontalPosition) ? toasterData.data.horizontalPosition : this.defaultValues.horizontalPosition;
-            this.container = this.isNull(toasterData.data.container) ? toasterData.data.container : this.defaultValues.container;
-            this.text = this.isNull(toasterData.data.text) ? toasterData.data.text : this.defaultValues.text;
-            this.width = this.isNull(toasterData.data.width) ? toasterData.data.width : this.defaultValues.width;
-            this.height = this.isNull(toasterData.data.height) ? toasterData.data.height : this.defaultValues.height;
-            this.padding = this.isNull(toasterData.data.padding) ? toasterData.data.padding : this.defaultValues.padding;
-            this.cornerRadius = this.isNull(toasterData.data.cornerRadius) ? toasterData.data.text : this.defaultValues.cornerRadius;
+            this.color = toasterData.data.color || toasterData.defaultValues.color;
+            this.background = toasterData.data.background || toasterData.defaultValues.background;
+            this.verticalPosition = toasterData.data.verticalPosition || toasterData.defaultValues.verticalPosition;
+            this.horizontalPosition = toasterData.data.horizontalPosition || toasterData.defaultValues.horizontalPosition;
+            this.container = toasterData.data.container || toasterData.defaultValues.container;
+            this.text = toasterData.data.text || toasterData.defaultValues.text;
+            this.width = toasterData.data.width || toasterData.defaultValues.width;
+            this.height = toasterData.data.height || toasterData.defaultValues.height;
+            this.padding = toasterData.data.padding || toasterData.defaultValues.padding;
+            this.cornerRadius = toasterData.data.cornerRadius || toasterData.defaultValues.cornerRadius;
         }
-    },
+    }
 
-    // Publishing toaster
-    this.publish = function () {
+    /**
+     * Publishing toaster by manipulating DOM
+     */
+    publish() {
         // Setting toaster properties
         this.setData(this);
 
@@ -61,38 +79,76 @@ function Toaster(data) {
                 id: 'toasterContainer'
             }).appendTo('body');
         }
-        $(this.container).show();
-        $(this.container).stop();
+
+        // Generating the toast id
+        let toastId = new Date().getTime();
+
+        // Creating a new element for toast item
+        $('<div/>', {
+            class: `toasterItem toasterContent-${toastId}`
+        }).prependTo(this.container);
+
+        // Marking position of container absolute
+        $(this.container).css({
+            'position': 'absolute'
+        });
 
         // Applying animation and styling
-        $(this.container).css({
-            'position': 'absolute',
+        $(`.toasterContent-${toastId}`).css({
+            'position': 'relative',
             'width': this.width,
-            'height': this.height,
+            'min-height': this.height,
             'background': this.background,
             'color': this.color,
             'padding': this.padding,
-            'border-radius': this.cornerRadius
+            'border-radius': this.cornerRadius,
+            'margin-top': '10px',
+            'word-break': 'break-word',
+            'overflow': 'none',
+            '-webkit-box-shadow': `0px 0px 11px 1px ${this.background}`,
+            '-moz-box-shadow': `0px 0px 11px 1px ${this.background}`,
+            'box-shadow': `0px 0px 11px 1px ${this.background}`
         });
-        
+
+
         // For vertical positioning
-        if(this.verticalPosition == "top") {
+        if (this.verticalPosition == "top") {
             $(this.container).css("top", "30px");
         } else {
             $(this.container).css("bottom", "30px");
         }
-
         // For horizontal positioning
-        if(this.horizontalPosition == "left") {
+        if (this.horizontalPosition == "left") {
             $(this.container).css("left", "30px");
         } else {
             $(this.container).css("right", "30px");
         }
-        $(this.container).text(this.text).animate({ 'opacity': '1' }, 400).fadeOut(5000);
-    },
 
-    // Validating null values
-    this.isNull = function(entity) {
+        // Setting the text of toaster item
+        $(`.toasterContent-${toastId}`).text(this.text);
+
+        // Fading out and removing the toaster item
+        this.fadeOut();
+    }
+
+    /**
+     * Validating null values
+     * 
+     * @param {*} entity Any entity to be validated
+     */
+    isNull(entity) {
         return (entity != null || entity != undefined) && entity != "" ? true : false;
+    }
+
+    /**
+     * Fading out and removing the element after toasting
+     */
+    fadeOut() {
+        if ($('.toasterItem:last').length > 0) {
+            $.when($('.toasterItem:last').fadeOut(4000)).then((element) => {
+                element.remove();
+                this.fadeOut();
+            });
+        }
     }
 }
